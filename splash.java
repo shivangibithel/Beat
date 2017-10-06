@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 public class splash extends Activity
 {
-     static int SPLASH_TIME_OUT = 1000;
+     static int SPLASH_TIME_OUT = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
