@@ -1,0 +1,113 @@
+ContentResolver cr = context.getContentResolver();
+
+        Uri uri = MediaStore.Files.getContentUri("external");
+
+        String[] projection = null;
+
+        String sortOrder = null;
+
+        String selectionMimeType = MediaStore.Files.FileColumns.MIME_TYPE + "=?";
+
+        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3");
+
+        String[] selectionArgsMp3 = new String[]{ mimeType };
+
+        Cursor cursor = cr.query(uri, projection, selectionMimeType, selectionArgsMp3 , sortOrder);
+
+
+
+
+
+
+
+
+
+
+Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
+
+
+
+
+
+
+
+
+
+
+
+
+
+ @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            getMenuInflater().inflate(R.menu.menu, menu);//Menu Resource, Menu
+            return true;
+        }
+    
+        @Override
+    
+    
+        public boolean onOptionsItemSelected(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.one:
+                    Toast.makeText(getApplicationContext(), "Playing All Songs", Toast.LENGTH_LONG).show();
+                    return true;
+                case R.id.two:
+                    Toast.makeText(getApplicationContext(), "Rename The Song", Toast.LENGTH_LONG).show();
+                    return true;
+                case R.id.three:
+                    Toast.makeText(getApplicationContext(), "Adding Ringtone", Toast.LENGTH_LONG).show();
+                    return true;
+                case R.id.four:
+                    Toast.makeText(getApplicationContext(), "Choose Playlist", Toast.LENGTH_LONG).show();
+                    return true;
+                case R.id.five:
+                    Toast.makeText(getApplicationContext(), "Song deleted", Toast.LENGTH_LONG).show();
+                    return true;
+                case R.id.six:
+                    Toast.makeText(getApplicationContext(), "Songs Deleted", Toast.LENGTH_LONG).show();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+    
+        }
+
+
+
+
+
+
+
+
+ case R.id.next: {
+                        if (currentSongIndex < (songsList.size() - 1)) {
+                            playSong(currentSongIndex + 1);
+                            currentSongIndex = currentSongIndex + 1;
+                        } else {
+                            // play first song
+                            playSong(0);
+                            currentSongIndex = 0;
+                        }
+                    }
+                    case R.id.prev: {
+                        if (currentSongIndex > 0) {
+                            playSong(currentSongIndex - 1);
+                            currentSongIndex = currentSongIndex - 1;
+                        } else {
+                            // play last song
+                            playSong(songsList.size() - 1);
+                            currentSongIndex = songsList.size() - 1;
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+ private ListView list= null;

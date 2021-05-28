@@ -1,0 +1,212 @@
+mainactivity xml
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onClick="songtapped"
+     tools:context=".MainActivity">
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listview"/>
+
+</LinearLayout>
+
+
+
+
+mainactivity java
+
+
+
+package com.example.user.music;
+
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+
+
+public class MainActivity extends AppCompatActivity {
+    ArrayList<String> a11;
+    ListView l1;
+    ArrayAdapter<String> adapter;
+    int songt;
+    int art;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        l1 = (ListView) findViewById(R.id.listview);
+        a11 = new ArrayList<>();
+//        getmusic();
+        ContentResolver cr = getContentResolver();
+        Uri song = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor sc = cr.query(song, null, null, null, null);
+
+        if (sc != null && sc.moveToFirst()) {
+            songt = sc.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int art = sc.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+
+            do {
+                String curtitle = sc.getString(songt);
+                String curartist = sc.getString(art);
+                a11.add(curtitle + "\n" + curartist);
+
+            } while (sc.moveToNext());
+        }
+
+
+        sc.close();
+
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, a11);
+        l1.setAdapter(adapter);
+
+        l1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> adapterview, View view, int p, long id) {
+
+
+            }
+        });
+    }
+
+
+}
+
+
+
+
+
+splash xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/im"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textSize="12dp"
+        android:textColor="#454545"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:text="www.beat.info" />
+
+</RelativeLayout>
+
+
+
+splash.java
+
+package com.example.user.music;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+
+/**
+ * Created by User on 7/3/2017.
+ */
+
+public class splash extends Activity
+{
+    private static int SPLASH_TIME_OUT = 4000;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.splash);
+
+        new Handler().postDelayed(new Runnable() {
+
+            /*
+             * Showing splash screen with a timer. This will be useful when you
+             * want to show case your app logo / company
+             */
+
+            @Override
+            public void run() {
+                // This method will be executed once the timer is over
+                // Start your app main activity
+                Intent i = new Intent(splash.this, MainActivity.class);
+                startActivity(i);
+
+                // close this activity
+                finish();
+            }
+        }, SPLASH_TIME_OUT);
+    }
+}
+
+
+
+manifest
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.user.music">
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".splash"
+
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+    </application>
+
+</manifest>
